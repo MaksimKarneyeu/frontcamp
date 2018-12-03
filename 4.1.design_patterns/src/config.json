@@ -1,0 +1,21 @@
+{
+    "apiKey": "5e80c4b9ce1b45d1a1e69e81bfe6fe51",
+    "channelsEndpoint": "https://newsapi.org/v2/sources",
+    "newsEndpoint": "https://newsapi.org/v2/top-headlines",
+    "newsPageSize": "10",
+    "newsPage": "1",
+    "newsWidgetRenderIds": {
+        "channel": {
+            "channelId": "id",
+            "channelName": "name"
+        },
+        "container": ".container",
+        "elements": {
+            "items": "#news-items",
+            "header": "#news-header",
+            "bcActive": ".active"
+        }
+    },
+    "1": "test int key to test json-num-rem-loader",
+    "2": "test int key to test json-num-rem-loader"
+}
