@@ -6,8 +6,8 @@ module.exports = {
         "app": "./src/app.js"
     },
     output: {
-        filename: "[name].js",      
-        publicPath: '/dist/' // prod '/news/dist/'
+        filename: "[name].js",
+        publicPath: '/news/dist/'
     },
     plugins: [
         new MinifyPlugin()
