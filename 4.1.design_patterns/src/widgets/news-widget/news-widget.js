@@ -1,11 +1,15 @@
 import RenderContainer from "./news-widget_template.js"
 import RenderItem from "./news-item-widget_template.js"
+import ProxyCallService from "../../services/proxy-call-service.js";
+import Config from "../../config.json";
 
 export default class NewsWidget {
-    constructor(container, channel, data) {
+    constructor(container, channel) {
         this.container = container;        
         this.channel = channel;         
-        this.data = data;           
+        
+        this.newsUrl = `${Config.newsEndpoint}?sources=${this.channel.channelId}
+        &apiKey=${Config.apiKey}&pagesize=${Config.newsPageSize}&page=${Config.newsPage}`;        
     }
 
     initContainer() {        
@@ -18,9 +22,16 @@ export default class NewsWidget {
         this.bcActive = elements.bcActive;
     }
 
-    async bootstrap() {    
-        this.render(this.data);
-    }    
+    async bootstrap() {
+        const data = await this.loadData();
+        this.render(data);
+    }
+
+    async loadData() { 
+        const response = await new ProxyCallService().doGet(this.newsUrl);
+        const data = await response;
+        return !response.ok ? data.articles : [];  
+    }
 
     render(data) {
         data.map(element => this.items.innerHTML += RenderItem(element));

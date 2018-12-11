@@ -6,6 +6,6 @@ module.exports = merge(common, {
     devServer: {
         contentBase: './',
         compress: true,
-        port: 9001
+        port: 9000
     }    
 });
