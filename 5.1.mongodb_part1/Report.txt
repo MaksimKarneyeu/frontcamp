@@ -107,6 +107,8 @@ Task 4
 4.1 Create an index which will be used by this query and provide proof (from explain() or Compass UI) that the index is indeed used by the winning plan:
 db.restaurants.find({ name: "Glorious Food" })
 
+db.restaurants.createIndex({name: 1});
+
 db.restaurants.find({ name: "Glorious Food"}).explain()
 {
         "queryPlanner" : {
@@ -156,6 +158,8 @@ db.restaurants.find({ name: "Glorious Food"}).explain()
 
 4.2 Drop index from task 4.1
 
+db.restaurants.dropIndex({name:1});
+
 db.restaurants.find({ name: "Glorious Food"}).explain()
 {
         "queryPlanner" : {
@@ -190,6 +194,8 @@ db.restaurants.find({ name: "Glorious Food"}).explain()
 
 4.3 Create an index to make this query covered and provide proof (from explain() or Compass UI) that it is indeed covered:
 db.restaurants.find({ restaurant_id: "41098650" }, { _id: 0, borough: 1 })
+
+db.restaurants.createIndex({restaurant_id: 1, borough: 1});
 
 db.restaurants.find({ restaurant_id: "41098650" }, { _id: 0, borough: 1 }).explain()
 {
@@ -251,6 +257,8 @@ db.restaurants.find({ restaurant_id: "41098650" }, { _id: 0, borough: 1 }).expla
 db.restaurants.find({ borough: "Staten Island", cuisine: "American" }) - uses index
 db.restaurants.find({ borough: "Staten Island", name: "Bagel Land" }) - does not use index
 db.restaurants.find({ borough: "Queens", cuisine: "Pizza" }) - does not use index
+
+db.restaurants.createIndex({ cuisine: 1 },{ partialFilterExpression: { borough: "Staten Island" } });
 
 db.restaurants.find({ borough: "Staten Island", cuisine: "American" }).explain()
 {
@@ -412,6 +420,8 @@ db.restaurants.find({ borough: "Queens", cuisine: "Pizza" }).explain()
 
 4.5 Create an index to make query from task 3.4 covered and provide proof (from explain() or Compass UI) that it is indeed covered
 db.restaurants.find( { "grades.8.score": { "$lt": 7 }}, { _id: 0, name: 1 });
+
+db.restaurants.createIndex({ "grades.8.score":1 },{ partialFilterExpression: { "grades.8.score": { "$lt": 7 } } });
 
 > db.restaurants.find( { "grades.8.score": { "$lt": 7 }}, { _id: 0, name: 1 }).explain()
 {
