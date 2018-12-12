@@ -26,7 +26,7 @@ db.restaurants.aggregate([{
  },
  {
   $group: {
-   _id: "$restaurant_id",
+   _id: "$_id",
    score: {
     $max: "$grades.score"
    }
@@ -41,7 +41,7 @@ db.restaurants.aggregate([{
  }
 ]);
 
-result: { "_id" : "40372466", "score" : 131 }
+result: { "_id" : ObjectId("5c0ec24d92c1463888acaac5"), "score" : 131 }
 
 
 3.3 Add a grade { grade: "A", score: 7, date: ISODate() } to every restaurant in “Manhattan” (borough). 
@@ -421,7 +421,7 @@ db.restaurants.find({ borough: "Queens", cuisine: "Pizza" }).explain()
 4.5 Create an index to make query from task 3.4 covered and provide proof (from explain() or Compass UI) that it is indeed covered
 db.restaurants.find( { "grades.8.score": { "$lt": 7 }}, { _id: 0, name: 1 });
 
-db.restaurants.createIndex({ "grades.8.score":1 },{ partialFilterExpression: { "grades.8.score": { "$lt": 7 } } });
+db.restaurants.createIndex({ "grades.8.score":1, name: 1 },{ partialFilterExpression: { "grades.8.score": { "$lt": 7 } } });
 
 > db.restaurants.find( { "grades.8.score": { "$lt": 7 }}, { _id: 0, name: 1 }).explain()
 {
@@ -441,31 +441,65 @@ db.restaurants.createIndex({ "grades.8.score":1 },{ partialFilterExpression: { "
                                 "name" : 1
                         },
                         "inputStage" : {
-                                "stage" : "FETCH",
-                                "inputStage" : {
-                                        "stage" : "IXSCAN",
-                                        "keyPattern" : {
-                                                "grades.8.score" : 1
-                                        },
-                                        "indexName" : "grades.8.score_1",
-                                        "isMultiKey" : false,
-                                        "multiKeyPaths" : {
-                                                "grades.8.score" : [ ]
-                                        },
-                                        "isUnique" : false,
-                                        "isSparse" : false,
-                                        "isPartial" : true,
-                                        "indexVersion" : 2,
-                                        "direction" : "forward",
-                                        "indexBounds" : {
-                                                "grades.8.score" : [
-                                                        "[-inf.0, 7.0)"
-                                                ]
-                                        }
+                                "stage" : "IXSCAN",
+                                "keyPattern" : {
+                                        "grades.8.score" : 1,
+                                        "name" : 1
+                                },
+                                "indexName" : "grades.8.score_1_name_1",
+                                "isMultiKey" : false,
+                                "multiKeyPaths" : {
+                                        "grades.8.score" : [ ],
+                                        "name" : [ ]
+                                },
+                                "isUnique" : false,
+                                "isSparse" : false,
+                                "isPartial" : true,
+                                "indexVersion" : 2,
+                                "direction" : "forward",
+                                "indexBounds" : {
+                                        "grades.8.score" : [
+                                                "[-inf.0, 7.0)"
+                                        ],
+                                        "name" : [
+                                                "[MinKey, MaxKey]"
+                                        ]
                                 }
                         }
                 },
-                "rejectedPlans" : [ ]
+                "rejectedPlans" : [
+                        {
+                                "stage" : "PROJECTION",
+                                "transformBy" : {
+                                        "_id" : 0,
+                                        "name" : 1
+                                },
+                                "inputStage" : {
+                                        "stage" : "FETCH",
+                                        "inputStage" : {
+                                                "stage" : "IXSCAN",
+                                                "keyPattern" : {
+                                                        "grades.8.score" : 1
+                                                },
+                                                "indexName" : "grades.8.score_1",
+                                                "isMultiKey" : false,
+                                                "multiKeyPaths" : {
+                                                        "grades.8.score" : [ ]
+                                                },
+                                                "isUnique" : false,
+                                                "isSparse" : false,
+                                                "isPartial" : true,
+                                                "indexVersion" : 2,
+                                                "direction" : "forward",
+                                                "indexBounds" : {
+                                                        "grades.8.score" : [
+                                                                "[-inf.0, 7.0)"
+                                                        ]
+                                                }
+                                        }
+                                }
+                        }
+                ]
         },
         "serverInfo" : {
                 "host" : "EPBYMINW6487",
