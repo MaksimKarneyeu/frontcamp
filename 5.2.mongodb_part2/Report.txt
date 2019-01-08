@@ -163,20 +163,52 @@ db.airlines.aggregate([
  }
  
 },{
-	"$sort": {"location.state": 1}
+	"$sort": {"totalPassengers": -1}
 }
 ,
 {
 	$limit: 5,	
-},
-])
+},{
+	"$sort": {"location.state": 1}
+}
+]).pretty()
 
 results:
-{ "totalPassengers" : 1520240, "location" : { "state" : "Alabama", "city" : "Birmingham, AL" } }
-{ "totalPassengers" : 2944808, "location" : { "state" : "Alaska", "city" : "Anchorage, AK" } }
-{ "totalPassengers" : 26305506, "location" : { "state" : "Arizona", "city" : "Phoenix, AZ" } }
-{ "totalPassengers" : 1142904, "location" : { "state" : "Arkansas", "city" : "Little Rock, AR" } }
-{ "totalPassengers" : 47403112, "location" : { "state" : "California", "city" : "Los Angeles, CA" } }
+{
+        "totalPassengers" : 23701556,
+        "location" : {
+                "state" : "California",
+                "city" : "Los Angeles, CA"
+        }
+}
+{
+        "totalPassengers" : 29416565,
+        "location" : {
+                "state" : "Georgia",
+                "city" : "Atlanta, GA"
+        }
+}
+{
+        "totalPassengers" : 28035755,
+        "location" : {
+                "state" : "Illinois",
+                "city" : "Chicago, IL"
+        }
+}
+{
+        "totalPassengers" : 25266639,
+        "location" : {
+                "state" : "New York",
+                "city" : "New York, NY"
+        }
+}
+{
+        "totalPassengers" : 18408792,
+        "location" : {
+                "state" : "Texas",
+                "city" : "Dallas/Fort Worth, TX"
+        }
+}
 
 
 
