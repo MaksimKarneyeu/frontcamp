@@ -7,7 +7,6 @@ let expressWinston = require('express-winston');
 let winston = require('winston');
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
-
 let app = express();
 let router = express.Router();
 
@@ -16,43 +15,51 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+const { createLogger, format, transports } = require('winston');
+const { combine, timestamp,  printf } = format;
+const myFormat = printf(info => {
+  return `${info.timestamp} ${info.message}`;
+});
 
 app.use(expressWinston.logger({
+  format: combine(   
+    timestamp(),
+    myFormat
+  ),
     transports: [
       new winston.transports.Console(),
       new winston.transports.File({
         filename: 'info.log',
-        level: 'info'
+        level: 'info' 
       })
-    ],
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.json()
-    )
+    ]    
   }));
 
   app.use(router);
 
   app.use(expressWinston.errorLogger({
     transports: [
-      new winston.transports.Console(),
-      new winston.transports.File({
-        filename: 'error.log',
-        level: 'error'
-      })
+      new winston.transports.Console(),    
     ],
-    format: winston.format.combine(
-      winston.format.colorize(),
-      winston.format.json()      
+    format: combine(   
+      timestamp(),
+      myFormat
     )
   })); 
 
-
-app.get('/news', function( req, res, next ) {
+app.get('/news', function( req, res, next ) {  
     res.json(news);
 });
 
 app.get('/news/:id',function(req, res, next) {
+  // following three lines are needed for testing purpose
+  if(req.params.id === 'error'){
+    throw new Error("Test ERROR OCCURS!");
+  }
     res.send(news.articles[req.params.id]);
 });
 
@@ -75,9 +82,9 @@ app.delete('/news/', function(req, res, next)  {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use(function(err,req,res,next) {
-    console.log(err.stack);
-    res.status(500).send({"Error" : err.stack});
-  });
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send(err.message)
+})
 
 module.exports = app;
