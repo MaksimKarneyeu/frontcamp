@@ -6,6 +6,7 @@ let news = require('./news');
 let expressWinston = require('express-winston');
 let winston = require('winston');
 let indexRouter = require('./routes/index');
+let newsRouter = require('./routes/news')
 let app = express();
 let router = express.Router();
 var bodyParser = require('body-parser')
@@ -69,12 +70,12 @@ app.get('/news/:id', function (req, res, next) {
   res.send(news.articles[req.params.id]);
 });
 
-app.post('/news/create/', function (req, res, next) {  
+app.post('/news/', function (req, res, next) {  
   news.articles.push(req.body);
   res.sendStatus(201);
 });
 
-app.put('/news/update/:id', function (req, res, next) {
+app.put('/news/:id', function (req, res, next) {
   let id = req.params.id;
   if(typeof news.articles[id] === 'undefined'){
     res.status(404);
@@ -84,7 +85,7 @@ app.put('/news/update/:id', function (req, res, next) {
   res.sendStatus(204);
 });
 
-app.delete('/news/delete/:id', function (req, res, next) {
+app.delete('/news/:id', function (req, res, next) {
   let id = req.params.id;
   if(typeof news.articles[id] === 'undefined'){
     res.status(404);
@@ -95,6 +96,7 @@ app.delete('/news/delete/:id', function (req, res, next) {
 });
 
 app.use('/', indexRouter);
+app.use('/news', newsRouter);
 
 app.use(function (err, req, res, next) {
   console.error(err.stack)
