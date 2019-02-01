@@ -2,30 +2,21 @@ let express = require('express');
 let router = express.Router();
 let newsData = require('..//news');
 let mongoose = require('mongoose');
+let News = require('../models/news-model');
+let dbConfig = require('../db');
 
-let mongoDB = 'mongodb://127.0.0.1:27017/news';
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.connect(dbConfig.url, { useNewUrlParser: true });
 
-const newsSchema = new mongoose.Schema({
-  source: {
-    id: String,
-    name: String
-  },
-  author: String,
-  title: String,
-  description: String,
-  url: String,
-  urlToImage: String,
-  publishedAt: Date,
-  content: String
-});
+const isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated())
+    return next();
+  res.redirect('/');
+}
 
-const News = mongoose.model('News', newsSchema);
-
+//startup re-init testdata
 News.findOne({}, function (err, newsItem) {
-  if (!newsItem) {
-    News.collection.insertMany(newsData, check_keys = False);
-  }
+  mongoose.connection.db.dropCollection('news');
+  News.collection.insertMany(newsData);
 });
 
 router.get('/', function (req, res, next) {
@@ -36,10 +27,6 @@ router.get('/', function (req, res, next) {
 
 router.get('/:id', function (req, res, next) {
   let id = req.params.id;
-  // following three lines are needed for testing purpose
-  if (id === 'error') {
-    throw new Error("Test ERROR OCCURS!");
-  }
 
   News.findOne({ 'source.id': id }, function (err, newsItem) {
     if (!newsItem) {
@@ -56,7 +43,7 @@ router.post('/', function (req, res, next) {
   res.sendStatus(201);
 });
 
-router.put('/:id', function (req, res, next) {
+router.put('/:id', isAuthenticated, function (req, res, next) {
   let id = req.params.id;
 
   News.findOneAndReplace({ 'source.id': id }, req.body, function (err) {
@@ -68,7 +55,7 @@ router.put('/:id', function (req, res, next) {
 
 });
 
-router.delete('/:id', function (req, res, next) {
+router.delete('/:id', isAuthenticated, function (req, res, next) {
   let id = req.params.id;
 
   News.remove({ 'source.id': id }, function (err) {
@@ -81,6 +68,5 @@ router.delete('/:id', function (req, res, next) {
     }
   });
 });
-
 
 module.exports = router;

@@ -1,18 +1,25 @@
 let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
+var favicon = require('static-favicon');
 let logger = require('morgan');
-let indexRouter = require('./routes/index');
 let newsRouter = require('./routes/news');
 let logsRouter = require('./routes/logs')
 let app = express();
 let router = express.Router();
 let bodyParser = require('body-parser');
 let mongooseMorgan = require('mongoose-morgan');
+let dbConfig = require('./db');
+let passport = require('passport');
+let expressSession = require('express-session');
+let flash = require('connect-flash');
 
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(mongooseMorgan({
   collection: 'error_logger',
-  connectionString: 'mongodb://localhost:27017/logs-db'
+  connectionString: dbConfig.url
  },
  {
   skip: function (req, res) {
@@ -22,6 +29,16 @@ app.use(mongooseMorgan({
  'dev'
 ));
 
+app.use(flash());
+
+// Initialize Passport
+let initPassport = require('./passport/init');
+initPassport(passport);
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+app.use(favicon());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,14 +47,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (err, req, res, next) {
   console.error(err.stack)
-  res.status(500).send('Something broke!')
+  res.status(500).send('Something broken!')
 });
 
 app.use(router);
 
-
-
-app.use('/', indexRouter);
+var routes = require('./routes/index')(passport);
+app.use('/', routes);
 app.use('/news', newsRouter);
 app.use('/logs', logsRouter);
 
