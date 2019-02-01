@@ -3,7 +3,7 @@ let router = express.Router();
 let newsData = require('..//news');
 let mongoose = require('mongoose');
 
-var mongoDB = 'mongodb://127.0.0.1:27017/news';
+let mongoDB = 'mongodb://127.0.0.1:27017/news';
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 
 const newsSchema = new mongoose.Schema({
@@ -20,19 +20,17 @@ const newsSchema = new mongoose.Schema({
   content: String
 });
 
-const News = mongoose.model('News', newsSchema );
+const News = mongoose.model('News', newsSchema);
 
-//To initialize when the News collection is empty
-News.findOne({},function(err,newsItem){
-  if(!newsItem){
-     //Collection is empty
-     News.collection.insertMany(newsData);    
+News.findOne({}, function (err, newsItem) {
+  if (!newsItem) {
+    News.collection.insertMany(newsData, check_keys = False);
   }
 });
 
 router.get('/', function (req, res, next) {
-  News.find({}, function(err, newsItems) {  
-    res.send(newsItems);  
+  News.find({}, function (err, newsItems) {
+    res.send(newsItems);
   });
 });
 
@@ -42,36 +40,47 @@ router.get('/:id', function (req, res, next) {
   if (id === 'error') {
     throw new Error("Test ERROR OCCURS!");
   }
-  if (typeof news.articles[id] === 'undefined') {
-    res.status(404);
-    res.send(`Resource with ${id} id is not found.`)
-  }
-  res.send(news.articles[req.params.id]);
+
+  News.findOne({ 'source.id': id }, function (err, newsItem) {
+    if (!newsItem) {
+      res.status(404);
+      res.send(`Resource with ${id} id is not found.`);
+    } else {
+      res.send(newsItem);
+    }
+  });
 });
 
 router.post('/', function (req, res, next) {
-  news.articles.push(req.body);
+  News.collection.insert(req.body);
   res.sendStatus(201);
 });
 
 router.put('/:id', function (req, res, next) {
   let id = req.params.id;
-  if (typeof news.articles[id] === 'undefined') {
-    res.status(404);
-    res.send(`Resource with ${id} id is not found.`)
-  }
-  news.articles[id] = req.body;
-  res.sendStatus(204);
+
+  News.findOneAndReplace({ 'source.id': id }, req.body, function (err) {
+    if (err) {
+      res.send(500, { error: err });
+    }
+    else { res.sendStatus(204); }
+  });
+
 });
 
 router.delete('/:id', function (req, res, next) {
   let id = req.params.id;
-  if (typeof news.articles[id] === 'undefined') {
-    res.status(404);
-    res.send(`Resource with ${id} id is not found.`)
-  }
-  delete news.articles[id]
-  res.send(`${id} has been deleted.`);
+
+  News.remove({ 'source.id': id }, function (err) {
+    if (!err) {
+      res.status(404);
+      res.send(`Resource with ${id} id is not found.`)
+    }
+    else {
+      res.send(`${id} has been deleted.`);
+    }
+  });
 });
+
 
 module.exports = router;
