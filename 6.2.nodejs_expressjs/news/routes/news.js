@@ -38,8 +38,9 @@ router.get('/:id', function (req, res, next) {
   });
 });
 
-router.post('/', function (req, res, next) {
-  News.collection.insert(req.body);
+router.post('/', function (req, res, next) { 
+  let newsItem = new News(req.body);
+  newsItem.save();
   res.sendStatus(201);
 });
 
@@ -59,7 +60,7 @@ router.delete('/:id', isAuthenticated, function (req, res, next) {
   let id = req.params.id;
 
   News.remove({ 'source.id': id }, function (err) {
-    if (!err) {
+    if (err) {
       res.status(404);
       res.send(`Resource with ${id} id is not found.`)
     }
