@@ -7,7 +7,6 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ResultListComponent } from './result-list/result-list.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { ResultListItemComponent } from './result-list-item/result-list-item.component';
 import { NewsDetailsComponent } from './news-details/news-details.component';
 import { NewsFormComponent } from './news-form/news-form.component';
 
@@ -18,7 +17,6 @@ import { NewsFormComponent } from './news-form/news-form.component';
     FooterComponent,
     ResultListComponent,
     ToolbarComponent,
-    ResultListItemComponent,
     NewsDetailsComponent,
     NewsFormComponent
   ],
