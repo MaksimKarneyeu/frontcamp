@@ -19,11 +19,24 @@ export class DataService {
         });
     }
 
-    getData(): News[] { return this.data; };
+    public getNews(): News[] { return this.data; }
 
-    addData(news: News) { this.data.push(news); }
+    public getNewsBySource(source: string): News[] {
+        return this.data.filter((news: News) => {
+            return news.source.name === source
+        });
+    };
 
-    updateData(id: string, newsToUpdate: News): News {
+    public getSourceList(): string[] {
+        return this.data.map(x => x.source.name)
+            .filter((value: string, index: number, array: string[]) => {
+                return array.indexOf(value) === index
+            })
+    }
+
+    public addNews(news: News) { this.data.push(news); }
+
+    public updateNews(id: string, newsToUpdate: News): News {
         this.data = this.data.splice(this.data.findIndex(item => item.source.id === id), 1);
         this.data.push(newsToUpdate);
         return newsToUpdate;
