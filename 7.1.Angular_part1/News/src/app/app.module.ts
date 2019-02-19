@@ -1,15 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ResultListComponent } from './result-list/result-list.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
-import { ResultListItemComponent } from './result-list-item/result-list-item.component';
+import { NewsComponent } from './news/news.component';
 import { NewsDetailsComponent } from './news-details/news-details.component';
 import { NewsFormComponent } from './news-form/news-form.component';
+import { DataService } from './data.service';
 
 @NgModule({
   declarations: [
@@ -17,16 +18,16 @@ import { NewsFormComponent } from './news-form/news-form.component';
     HeaderComponent,
     FooterComponent,
     ResultListComponent,
-    ToolbarComponent,
-    ResultListItemComponent,
+    NewsComponent,
     NewsDetailsComponent,
-    NewsFormComponent
+    NewsFormComponent  
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

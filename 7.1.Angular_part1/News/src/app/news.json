@@ -1,7 +1,7 @@
 [
   {
     "source": {
-      "id": null,
+      "id": "1",
       "name": "Prnewswire.com"
     },
     "author": "OmniBazaar, Inc.",
@@ -14,7 +14,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "2",
       "name": "Hackernoon.com"
     },
     "author": "FlatOutCrypto",
@@ -27,7 +27,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "3",
       "name": "Forbes.com"
     },
     "author": "Editors, Forbes Technology Council, CommunityVoice, Editors, Forbes Technology Council, CommunityVoice https://www.forbes.com/sites/forbestechcouncil/people/forbestechcouncilcontributor/",
@@ -40,7 +40,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "4",
       "name": "9to5mac.com"
     },
     "author": "9to5Mac",
@@ -53,7 +53,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id":"5",
       "name": "Thefrisky.com"
     },
     "author": "Petar Mikonoss",
@@ -66,7 +66,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "6",
       "name": "Dailyfx.com"
     },
     "author": "Justin McQueen, Analyst, Justin McQueen",
@@ -79,7 +79,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "7",
       "name": "Marketwatch.com"
     },
     "author": "Aaron Hankin",
@@ -92,7 +92,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "8",
       "name": "Bitcoinist.com"
     },
     "author": "Allen Scott",
@@ -105,7 +105,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "9",
       "name": "Cnet.com"
     },
     "author": "Alfred Ng",
@@ -118,7 +118,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "10",
       "name": "Yahoo.com"
     },
     "author": null,
@@ -131,7 +131,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "11",
       "name": "Yahoo.com"
     },
     "author": null,
@@ -157,7 +157,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "12",
       "name": "Hackernoon.com"
     },
     "author": "Pirate Beachbum",
@@ -170,7 +170,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "13",
       "name": "Thestar.com"
     },
     "author": "Manus Cranny - Bloomberg,Mahmoud Habboush",
@@ -183,7 +183,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "14",
       "name": "Theconversation.com"
     },
     "author": "Eyal Winter, Andrews and Elizabeth Brunner Professor of Behavioural/Industrial Economics, Lancaster University",
@@ -196,7 +196,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "15",
       "name": "Seekingalpha.com"
     },
     "author": "Jim Sloan",
@@ -209,7 +209,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "16",
       "name": "Forbes.com"
     },
     "author": "Michael del Castillo, Forbes Staff, Michael del Castillo, Forbes Staff https://www.forbes.com/sites/michaeldelcastillo/",
@@ -222,7 +222,7 @@
   },
   {
     "source": {
-      "id": null,
+      "id": "17",
       "name": "Teiss.co.uk"
     },
     "author": "https://www.facebook.com/profile.php?id=100009407656255&ref=bookmarks, https://www.facebook.com/profile.php?id=100009407656255&ref=bookmarks",

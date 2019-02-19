@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'header',
@@ -6,12 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  public text: string;
+  @Input() source: string;
 
-  constructor() { 
-    this.text = "Test source";
+  constructor() {     
   }
 
   ngOnInit() {
+    this.source = "All Sources";
   }
 }

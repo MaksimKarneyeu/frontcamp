@@ -1,3 +1,12 @@
-<p>
-  result-list works!
-</p>
+<div *ngFor="let item of news">
+  <li class="media media-item">
+    <a class="pull-left" href="{{item.url}}">
+      <img class="mr-3 preview-image" src="{{item.urlToImage}}">
+    </a>
+    <div class="media-body">
+      <h5 class="mt-1"><a href="{{item.url}}">{{item.description}}</a></h5>
+      <p>{{item.source.name}}</p>
+    </div>
+  </li>
+  <br>  
+</div>
