@@ -1,10 +1,13 @@
 import { News } from './news';
 import newsData from './news.json';
+import { BehaviorSubject } from 'rxjs';
 
 
 export class DataService {
 
     private data: News[];
+    private source = new BehaviorSubject('All Sources');
+    public currentSource = this.source.asObservable();
 
     constructor() {
         this.data = newsData.map((n: any) => {
@@ -18,6 +21,10 @@ export class DataService {
             return news;
         });
     }
+
+    public changeSource(source: string) {
+        this.source.next(source)
+      }
 
     public getNews(): News[] { return this.data; }
 

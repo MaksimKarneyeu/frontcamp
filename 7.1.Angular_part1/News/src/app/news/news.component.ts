@@ -17,12 +17,12 @@ export class NewsComponent implements OnInit {
     this.dataService = dataService;
   }
 
-  public onSelect(source: string): void {     
-    document.getElementById('navbarDropdown').innerText = source;
-    this.source = source;
+  public onSelect(source: string): void {        
+    this.dataService.changeSource(source);
   }  
 
   ngOnInit() {   
     this.sources = this.dataService.getSourceList();    
+    this.dataService.currentSource.subscribe(source => this.source = source);
   }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DataService } from '../data.service';
+
 
 @Component({
   selector: 'header',
@@ -6,12 +8,14 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  @Input() source: string;
+  private dataService: DataService;
+  public source: string;
 
-  constructor() {     
+  constructor(dataService: DataService) {   
+    this.dataService = dataService;  
   }
 
   ngOnInit() {
-    this.source = "All Sources";
+    this.dataService.currentSource.subscribe(source => this.source = source);
   }
 }
