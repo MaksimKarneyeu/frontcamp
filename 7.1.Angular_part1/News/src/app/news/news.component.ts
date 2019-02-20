@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DataService } from '../data.service';
 
 @Component({
@@ -11,11 +11,15 @@ export class NewsComponent implements OnInit {
   public sources: string[] = [];
   public source: string;
   public filterInput: string;
-
+  @Output() loadNewsDetailsOutput: EventEmitter<boolean> = new EventEmitter();
 
   constructor(dataService: DataService){
     this.dataService = dataService;
   }
+
+  public loadNewsDetails():void {
+    this.loadNewsDetailsOutput.emit(true);
+  } 
 
   public onSelect(source: string): void {        
     this.dataService.changeSource(source);

@@ -13,17 +13,19 @@ export class ResultListComponent implements OnInit {
 
   private dataService: DataService;
   private currentSource: string;
+  private defaultLoadCount : number = 5;
+  private loadNewsCount: number;
   public news: News[] = [];
 
   constructor(dataService: DataService) {
     this.dataService = dataService;
   }
 
-  private renderNews(source: string) {
+  private renderNews(source: string, count: number = 0) {
     if (source === 'All Sources') {
-      this.news = this.dataService.getNews();
+      this.news = this.dataService.getNews(count);
     } else {
-      this.news = this.dataService.getNewsBySource(source);
+      this.news = this.dataService.getNewsBySource(source,count);
     }
   }
 
@@ -38,16 +40,22 @@ export class ResultListComponent implements OnInit {
     return changes[name].currentValue;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  public handleLoadMore(event: number){
+    this.loadNewsCount += event;
+    this.renderNews(this.currentSource, this.loadNewsCount);  
+  } 
+
+  ngOnChanges(changes: SimpleChanges) {   
     for (let propName in changes) {
       if (propName === 'source') {
+        this.loadNewsCount = this.defaultLoadCount;
         this.currentSource = this.getPropCurrentValue(propName, changes);
-        this.renderNews(this.currentSource);
+        this.renderNews(this.currentSource, this.loadNewsCount);
       }
       if (propName === 'filterInput') {      
         let cur = this.getPropCurrentValue(propName, changes);       
         if (!cur) {
-          this.renderNews(this.currentSource);
+          this.renderNews(this.currentSource, this.loadNewsCount);
         } else {         
           this.filterNews(cur);
         }
@@ -55,8 +63,9 @@ export class ResultListComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnInit() {    
+    this.loadNewsCount = this.defaultLoadCount;
     this.currentSource = 'All Sources';
-    this.news = this.dataService.getNews();
+    this.news = this.dataService.getNews(this.loadNewsCount);
   }
 }

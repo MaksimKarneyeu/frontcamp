@@ -11,6 +11,7 @@ import { NewsComponent } from './news/news.component';
 import { NewsDetailsComponent } from './news-details/news-details.component';
 import { NewsFormComponent } from './news-form/news-form.component';
 import { DataService } from './data.service';
+import { LoadMoreComponent } from './load-more/load-more.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DataService } from './data.service';
     ResultListComponent,
     NewsComponent,
     NewsDetailsComponent,
-    NewsFormComponent  
+    NewsFormComponent,
+    LoadMoreComponent  
   ],
   imports: [
     BrowserModule,

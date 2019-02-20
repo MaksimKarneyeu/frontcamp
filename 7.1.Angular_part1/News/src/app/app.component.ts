@@ -5,6 +5,19 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'News';
+export class AppComponent { 
+  public isLoadNewsDetails: boolean;
+  public isLoadNews: boolean;
+  public title = 'News';
+
+  loadNewsDetails(event: boolean){
+   if(event){
+     this.isLoadNewsDetails = true;
+     this.isLoadNews = false;
+   }
+  }  
+
+  ngOnInit() {    
+    this.isLoadNews = true;
+  }
 }

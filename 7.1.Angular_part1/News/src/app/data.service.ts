@@ -24,14 +24,17 @@ export class DataService {
 
     public changeSource(source: string) {
         this.source.next(source)
-      }
+    }
 
-    public getNews(): News[] { return this.data; }
+    public getNews(count: number = 0): News[] {
+        return this.sliceNews(this.data, count);
+    }
 
-    public getNewsBySource(source: string): News[] {
-        return this.data.filter((news: News) => {
+    public getNewsBySource(source: string, count: number = 0): News[] {
+        let gotData = this.data.filter((news: News) => {
             return news.source.name === source
         });
+        return this.sliceNews(gotData,count);
     };
 
     public getSourceList(): string[] {
@@ -47,5 +50,13 @@ export class DataService {
         this.data = this.data.splice(this.data.findIndex(item => item.source.id === id), 1);
         this.data.push(newsToUpdate);
         return newsToUpdate;
+    } 
+
+    private sliceNews(data: News[], count: number){
+        if (count > 0 && count < data.length) {
+            return data.slice(0, count);
+        } else {
+            return data;
+        }
     }
 }

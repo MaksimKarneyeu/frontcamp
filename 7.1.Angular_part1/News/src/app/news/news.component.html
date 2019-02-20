@@ -20,7 +20,7 @@
           <input class="form-control mr-sm-2" [(ngModel)]="filterInput" type="search" placeholder="Search" aria-label="Search">       
       </li>    
       <li class="form-inline my-2 my-lg-0">
-          <button type="button" class="btn btn-info">Add News</button>      
+          <button type="button" (click)="loadNewsDetails()"class="btn btn-info">Add News</button>      
       </li>  
     </ul>  
   </div>
