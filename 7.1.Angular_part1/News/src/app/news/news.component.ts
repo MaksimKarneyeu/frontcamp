@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { DataService } from '../data.service';
+import { DetailsParams } from '../DetailsParams';
 
 @Component({
   selector: 'news',
@@ -11,14 +12,27 @@ export class NewsComponent implements OnInit {
   public sources: string[] = [];
   public source: string;
   public filterInput: string;
-  @Output() loadNewsDetailsOutput: EventEmitter<boolean> = new EventEmitter();
+  @Output() loadNewsDetailsOutput: EventEmitter<DetailsParams> = new EventEmitter();
+  @Output() loadNewsOverviewOutput: EventEmitter<string> = new EventEmitter();
 
   constructor(dataService: DataService){
     this.dataService = dataService;
   }
 
-  public loadNewsDetails():void {
-    this.loadNewsDetailsOutput.emit(true);
+  public loadNewsDetails(id: string):void {
+    let details = new DetailsParams();
+    details.id = id;
+    details.detailsType = "Create";
+    details.title = "Create News";
+    this.loadNewsDetailsOutput.emit(details);
+  } 
+  
+  public loadNewsDetailsEvent(event: DetailsParams){
+    this.loadNewsDetailsOutput.emit(event);
+  }  
+
+  public loadNewsOverviewEvent(event: string){
+    this.loadNewsOverviewOutput.emit(event);
   } 
 
   public onSelect(source: string): void {        

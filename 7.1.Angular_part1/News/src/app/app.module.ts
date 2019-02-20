@@ -9,9 +9,11 @@ import { FooterComponent } from './footer/footer.component';
 import { ResultListComponent } from './result-list/result-list.component';
 import { NewsComponent } from './news/news.component';
 import { NewsDetailsComponent } from './news-details/news-details.component';
-import { NewsFormComponent } from './news-form/news-form.component';
 import { DataService } from './data.service';
 import { LoadMoreComponent } from './load-more/load-more.component';
+import { NewsOverviewComponent } from './news-overview/news-overview.component';
+import { ContainerComponent } from './container/container.component';
+
 
 @NgModule({
   declarations: [
@@ -21,10 +23,11 @@ import { LoadMoreComponent } from './load-more/load-more.component';
     ResultListComponent,
     NewsComponent,
     NewsDetailsComponent,
-    NewsFormComponent,
-    LoadMoreComponent  
+    LoadMoreComponent,
+    NewsOverviewComponent,
+    ContainerComponent
   ],
-  imports: [
+  imports: [    
     BrowserModule,
     AppRoutingModule,
     FormsModule
@@ -33,3 +36,6 @@ import { LoadMoreComponent } from './load-more/load-more.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+

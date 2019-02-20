@@ -1,3 +1,48 @@
-<p>
-  news-details works!
-</p>
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="name" [(ngModel)]="model.source.name" #name="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required />
+            <div *ngIf="f.submitted && name.invalid" class="invalid-feedback">
+              <div *ngIf="name.errors.required">Name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" name="description" [(ngModel)]="model.description"
+              #description="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" class="form-control" name="author" [(ngModel)]="model.author" #author="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="url">Url</label>
+            <input type="text" class="form-control" name="url" [(ngModel)]="model.url" #url="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="urlToImage">Url to image</label>
+            <input type="url" class="form-control" name="urlToImage" [(ngModel)]="model.urlToImage"
+              #urlToImage="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="publishedAt">Published At</label>
+            <input type="date" class="form-control" name="publishedAt" [(ngModel)]="model.publishedAt"
+              #publishedAt="ngModel" />
+          </div>
+          <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control noresize" rows="6" name="content" [(ngModel)]="model.content" #content="ngModel"></textarea>
+            </div>
+          <div class="form-group">
+            <button class="btn btn-primary">Save News</button>       
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

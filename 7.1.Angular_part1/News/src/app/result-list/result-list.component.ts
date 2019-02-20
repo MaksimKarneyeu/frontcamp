@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { DataService } from '../data.service';
 import { News } from '../news';
+import { DetailsParams } from '../DetailsParams';
 
 @Component({
   selector: 'result',
@@ -10,6 +11,8 @@ import { News } from '../news';
 export class ResultListComponent implements OnInit {
   @Input() source: string;
   @Input() filterInput: string;
+  @Output() loadNewsDetailsOutput: EventEmitter<DetailsParams> = new EventEmitter();  
+  @Output() loadNewsOverviewOutput: EventEmitter<string> = new EventEmitter();
 
   private dataService: DataService;
   private currentSource: string;
@@ -19,7 +22,7 @@ export class ResultListComponent implements OnInit {
 
   constructor(dataService: DataService) {
     this.dataService = dataService;
-  }
+  } 
 
   private renderNews(source: string, count: number = 0) {
     if (source === 'All Sources') {
@@ -31,8 +34,8 @@ export class ResultListComponent implements OnInit {
 
   private filterNews(term: string) {
     this.news = this.news.filter((news) => {
-      return news.description.toLocaleLowerCase().includes(term.toLocaleLowerCase())
-        || news.source.name.toLocaleLowerCase().includes(term.toLocaleLowerCase());
+      return news.title.toLocaleLowerCase().includes(term.toLocaleLowerCase())
+        || news.description.toLocaleLowerCase().includes(term.toLocaleLowerCase());
     });
   }
 
@@ -40,10 +43,27 @@ export class ResultListComponent implements OnInit {
     return changes[name].currentValue;
   }
 
+  public loadNewsDetails(id: string):void {
+    let details = new DetailsParams();
+    details.id = id;
+    details.detailsType = "Edit";
+    details.title = "Edit News";
+    this.loadNewsDetailsOutput.emit(details);
+  } 
+
+  public delete(id: string){
+    this.dataService.deleteNews(id);
+    this.renderNews(this.currentSource, this.loadNewsCount);
+  }
+
+  public loadNewsOverview(id: string):void {   
+    this.loadNewsOverviewOutput.emit(id);
+  } 
+
   public handleLoadMore(event: number){
     this.loadNewsCount += event;
     this.renderNews(this.currentSource, this.loadNewsCount);  
-  } 
+  }   
 
   ngOnChanges(changes: SimpleChanges) {   
     for (let propName in changes) {

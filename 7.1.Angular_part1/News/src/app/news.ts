@@ -4,6 +4,7 @@ export class News{
     public source: Source;
     public author: string;
     public description: string;
+    public title: string;
     public url: string;
     public urlToImage: string;
     public publishedAt: Date;

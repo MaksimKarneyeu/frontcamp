@@ -10,16 +10,20 @@ export class DataService {
     public currentSource = this.source.asObservable();
 
     constructor() {
-        this.data = newsData.map((n: any) => {
-            let news = new News(n.source.id, n.source.name);
-            news.author = n.author;
-            news.description = n.description;
-            news.url = n.url;
-            news.urlToImage = n.urlToImage;
-            news.publishedAt = n.publishedAt;
-            news.content = n.content;
-            return news;
-        });
+        if (!this.data) {
+            this.data = newsData.map((n: any) => {
+                let news = new News(n.source.id, n.source.name);
+                news.title = n.title;
+                news.author = n.author;
+                news.description = n.description;
+                news.url = n.url;
+                news.urlToImage = n.urlToImage;
+                news.publishedAt = n.publishedAt;
+                news.content = n.content;
+                return news;
+            }
+            );
+        }
     }
 
     public changeSource(source: string) {
@@ -34,25 +38,33 @@ export class DataService {
         let gotData = this.data.filter((news: News) => {
             return news.source.name === source
         });
-        return this.sliceNews(gotData,count);
+        return this.sliceNews(gotData, count);
     };
 
     public getSourceList(): string[] {
         return this.data.map(x => x.source.name)
             .filter((value: string, index: number, array: string[]) => {
                 return array.indexOf(value) === index
-            })
+            });
     }
 
     public addNews(news: News) { this.data.push(news); }
 
     public updateNews(id: string, newsToUpdate: News): News {
-        this.data = this.data.splice(this.data.findIndex(item => item.source.id === id), 1);
+        this.data = this.data.filter((value: News) => { return value.source.id !== id });
         this.data.push(newsToUpdate);
         return newsToUpdate;
-    } 
+    }
 
-    private sliceNews(data: News[], count: number){
+    public getNewsById(id: string): News{
+        return this.data[this.data.findIndex(item => item.source.id === id)];
+    }
+
+    public deleteNews(id: string) {
+        this.data = this.data.filter((value: News) => { return value.source.id !== id });
+    }
+
+    private sliceNews(data: News[], count: number) {
         if (count > 0 && count < data.length) {
             return data.slice(0, count);
         } else {

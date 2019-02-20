@@ -5,3 +5,10 @@
 .media-item {
     background-color: #e9ecef;
 }
+.lowerleft{
+    float: right;
+}
+
+.align-date{
+    display:inline;
+}
