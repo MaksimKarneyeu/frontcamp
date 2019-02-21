@@ -15,14 +15,12 @@ export class ResultListComponent implements OnInit {
   @Output() loadNewsDetailsOutput: EventEmitter<DetailsParams> = new EventEmitter();  
   @Output() loadNewsOverviewOutput: EventEmitter<string> = new EventEmitter();
 
-  private dataService: DataService;
   private currentSource: string;
   private defaultLoadCount : number = 5;
   private loadNewsCount: number;
   public news: News[] = [];
 
-  constructor(dataService: DataService) {
-    this.dataService = dataService;
+  constructor(private dataService: DataService){
   } 
 
   private renderNews(source: string, count: number = 0) {

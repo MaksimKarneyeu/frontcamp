@@ -7,16 +7,14 @@ import { DetailsParams } from '../DetailsParams';
   templateUrl: './news.component.html',
   styleUrls: ['./news.component.css']
 })
-export class NewsComponent implements OnInit {
-  private dataService: DataService;
+export class NewsComponent implements OnInit { 
   public sources: string[] = [];
   public source: string;
   public filterInput: string;
   @Output() loadNewsDetailsOutput: EventEmitter<DetailsParams> = new EventEmitter();
   @Output() loadNewsOverviewOutput: EventEmitter<string> = new EventEmitter();
 
-  constructor(dataService: DataService){
-    this.dataService = dataService;
+  constructor(private dataService: DataService){  
   }
 
   public loadNewsDetails(id: string):void {
@@ -35,12 +33,14 @@ export class NewsComponent implements OnInit {
     this.loadNewsOverviewOutput.emit(event);
   } 
 
-  public onSelect(source: string): void {        
-    this.dataService.changeSource(source);
+  public onSelect(source: string): void {         
+    this.dataService.changeSource(source);   
   }  
-
-  ngOnInit() {   
+  public getSources(){
     this.sources = this.dataService.getSourceList();    
+  }
+
+  ngOnInit() {       
     this.dataService.currentSource.subscribe(source => this.source = source);
   }
 }

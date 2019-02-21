@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DetailsParams } from './DetailsParams';
 
 @Component({
   selector: 'app-root',

@@ -8,11 +8,9 @@ import { DataService } from '../data.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  private dataService: DataService;
   public source: string;
 
-  constructor(dataService: DataService) {   
-    this.dataService = dataService;  
+  constructor(private dataService: DataService) {  
   }
 
   ngOnInit() {

@@ -9,14 +9,12 @@ import { DetailsParams } from '../DetailsParams';
   styleUrls: ['./news-overview.component.css']
 })
 export class NewsOverviewComponent implements OnInit {
-  private dataService: DataService;
   public model: News;
   public isNewsDeleted: boolean;
   @Input() newsOverviewId: string;
   @Output() loadNewsDetailsOutput: EventEmitter<DetailsParams> = new EventEmitter();
 
-  constructor(dataService: DataService) {
-    this.dataService = dataService;
+  constructor(private dataService: DataService){
   }
 
   public loadNewsDetails(id: string): void {   

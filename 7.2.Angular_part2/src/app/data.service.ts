@@ -1,18 +1,23 @@
 import { News } from './news';
 import newsData from './news.json';
 import { BehaviorSubject } from 'rxjs';
+import { CallService } from "./call.service";
+import { Injectable } from '@angular/core';
+import { Guid } from './creat-guid';
 
-
+@Injectable({
+    providedIn: 'root'
+  })
 export class DataService {
 
     private data: News[];
     private source = new BehaviorSubject('All Sources');
     public currentSource = this.source.asObservable();
 
-    constructor() {
+    constructor(private callService: CallService) {
         if (!this.data) {
             this.data = newsData.map((n: any) => {
-                let news = new News(n.source.id, n.source.name);
+                let news = new News(Guid.newGuid(), n.source.name);
                 news.title = n.title;
                 news.author = n.author;
                 news.description = n.description;
@@ -21,16 +26,26 @@ export class DataService {
                 news.publishedAt = n.publishedAt;
                 news.content = n.content;
                 return news;
-            }
+            }           
             );
+            this.getExternalNews();           
         }
+    }
+
+    private getExternalNews() {
+        return this.callService.getNews().subscribe(
+            (articles: News[]) => {           
+                this.data = this.data.concat(articles);                
+            },
+            (error) => console.log(error)
+        )
     }
 
     public changeSource(source: string) {
         this.source.next(source)
     }
 
-    public getNews(count: number = 0): News[] {
+    public getNews(count: number = 0): News[] {       
         return this.sliceNews(this.data, count);
     }
 
@@ -56,7 +71,7 @@ export class DataService {
         return newsToUpdate;
     }
 
-    public getNewsById(id: string): News{
+    public getNewsById(id: string): News {
         return this.data[this.data.findIndex(item => item.source.id === id)];
     }
 
