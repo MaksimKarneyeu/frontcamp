@@ -13,6 +13,7 @@ import { DataService } from './data.service';
 import { LoadMoreComponent } from './load-more/load-more.component';
 import { NewsOverviewComponent } from './news-overview/news-overview.component';
 import { ContainerComponent } from './container/container.component';
+import { FilterPipe } from './filter.pipe';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ContainerComponent } from './container/container.component';
     NewsDetailsComponent,
     LoadMoreComponent,
     NewsOverviewComponent,
-    ContainerComponent
+    ContainerComponent,
+    FilterPipe
   ],
   imports: [    
     BrowserModule,

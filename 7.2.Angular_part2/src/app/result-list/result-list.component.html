@@ -1,4 +1,4 @@
-<div *ngFor="let item of news">
+<div *ngFor="let item of news | filter: filterInput">
   <li class="media media-item">
     <a class="pull-left" href="{{item.url}}">
       <img class="mr-3 preview-image" src="{{item.urlToImage}}">
@@ -6,8 +6,8 @@
     <div class="media-body">
       <h5 class="mt-1"><a href="{{item.url}}">{{item.title}}</a></h5>
       <p>{{item.description}}</p>
-      <p class="align-date">{{item.publishedAt}}</p>
-      <div class="lowerleft">
+      <p class="align-date">{{item.publishedAt | date}}</p>
+      <div class="lower-left">
         <button (click)="loadNewsOverview(item.source.id)" class="btn btn-primary">Details</button>
         <button (click)="loadNewsDetails(item.source.id)" class="btn btn-primary">Edit</button>
         <button (click)="delete(item.source.id)" class="btn btn-primary">Delete</button>

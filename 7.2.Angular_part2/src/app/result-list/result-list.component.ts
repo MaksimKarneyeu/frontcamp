@@ -3,6 +3,7 @@ import { DataService } from '../data.service';
 import { News } from '../news';
 import { DetailsParams } from '../DetailsParams';
 
+
 @Component({
   selector: 'result',
   templateUrl: './result-list.component.html',
@@ -30,13 +31,6 @@ export class ResultListComponent implements OnInit {
     } else {
       this.news = this.dataService.getNewsBySource(source,count);
     }
-  }
-
-  private filterNews(term: string) {
-    this.news = this.news.filter((news) => {
-      return news.title.toLocaleLowerCase().includes(term.toLocaleLowerCase())
-        || news.description.toLocaleLowerCase().includes(term.toLocaleLowerCase());
-    });
   }
 
   private getPropCurrentValue(name: string, changes: SimpleChanges) {
@@ -72,14 +66,7 @@ export class ResultListComponent implements OnInit {
         this.currentSource = this.getPropCurrentValue(propName, changes);
         this.renderNews(this.currentSource, this.loadNewsCount);
       }
-      if (propName === 'filterInput') {      
-        let cur = this.getPropCurrentValue(propName, changes);       
-        if (!cur) {
-          this.renderNews(this.currentSource, this.loadNewsCount);
-        } else {         
-          this.filterNews(cur);
-        }
-      }
+      
     }
   }
 
@@ -87,5 +74,6 @@ export class ResultListComponent implements OnInit {
     this.loadNewsCount = this.defaultLoadCount;
     this.currentSource = 'All Sources';
     this.news = this.dataService.getNews(this.loadNewsCount);
+    this.filterInput = '';
   }
 }
