@@ -8,7 +8,7 @@
           <label for="description">Description</label>
           <input type="text" name="description" class="form-control" [formControl]="description">
           <label for="author">Author</label>
-          <input type="text" name="author" class="form-control" [formControl]="name">
+          <input type="text" name="author" class="form-control" [formControl]="author">
           <label for="url">Url</label>
           <input type="url" name="url" class="form-control" [formControl]="url">
           <label for="urlToImage">Url to image</label>
@@ -16,8 +16,10 @@
           <label for="publishedAt">Published At</label>
           <input type="date" name="publishedAt" class="form-control" [formControl]="publishedAt">
           <label for="content">Content</label>
-          <input class="form-control noresize" rows="6" name="content" [formControl]="content">
-          <button type="submit" [disabled]="!editForm.valid">Submit</button>
+          <textarea class="form-control noresize" rows="6" name="content" [formControl]="content"></textarea>
+          <br>
+          <button type="submit" class="btn btn-primary" (click)="onSubmit()"
+            [disabled]="!editForm.valid">Submit</button>
         </form>
       </div>
     </div>
