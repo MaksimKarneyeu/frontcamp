@@ -1,0 +1,14 @@
+.preview-image {
+    width: 119px;
+    height: 101px;
+}
+.media-item {
+    background-color: #e9ecef;
+}
+.lower-left{
+    float: right;
+}
+
+.align-date{
+    display:inline;
+}
