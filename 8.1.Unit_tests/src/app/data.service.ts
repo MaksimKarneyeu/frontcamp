@@ -1,41 +1,43 @@
 import { News } from './news';
-import newsData from './news.json';
 import { BehaviorSubject } from 'rxjs';
 import { CallService } from "./call.service";
 import { Injectable } from '@angular/core';
-import { Guid } from './creat-guid';
+import { DataProviderService } from './data-provider.service';
 
 @Injectable({
     providedIn: 'root'
-  })
+})
 export class DataService {
 
-    private data: News[];
-    private source = new BehaviorSubject('All Sources');
+    protected data: News[];
+    protected source = new BehaviorSubject('All Sources');
     public currentSource = this.source.asObservable();
 
-    constructor(private callService: CallService) {
+    constructor(protected callService: CallService, protected dataProvider: DataProviderService) {
         if (!this.data) {
-            this.data = newsData.map((n: any) => {
-                let news = new News(Guid.newGuid(), n.source.name);
-                news.title = n.title;
-                news.author = n.author;
-                news.description = n.description;
-                news.url = n.url;
-                news.urlToImage = n.urlToImage;
-                news.publishedAt = n.publishedAt;
-                news.content = n.content;
-                return news;
-            }           
-            );
-            this.getExternalNews();           
+            this.data = this.initData();
+        }                
+    }
+
+    protected initData(): News[]{
+        if (!this.data) {
+            this.getExternalNews();
+            return this.dataProvider.getData();          
         }
     }
 
-    private getExternalNews() {
-        return this.callService.getNews().subscribe(
-            (articles: News[]) => {           
-                this.data = this.data.concat(articles);                
+    protected sliceNews(data: News[], count: number) {
+        if (count > 0 && count < data.length) {
+            return data.slice(0, count);
+        } else {
+            return data;
+        }
+    }
+
+    public getExternalNews() {
+        this.callService.getNews().subscribe(
+            (articles: News[]) => {
+                this.data = this.data.concat(articles);
             },
             (error) => console.log(error)
         )
@@ -45,7 +47,7 @@ export class DataService {
         this.source.next(source)
     }
 
-    public getNews(count: number = 0): News[] {       
+    public getNews(count: number = 0): News[] {
         return this.sliceNews(this.data, count);
     }
 
@@ -77,13 +79,5 @@ export class DataService {
 
     public deleteNews(id: string) {
         this.data = this.data.filter((value: News) => { return value.source.id !== id });
-    }
-
-    private sliceNews(data: News[], count: number) {
-        if (count > 0 && count < data.length) {
-            return data.slice(0, count);
-        } else {
-            return data;
-        }
-    }
+    }    
 }

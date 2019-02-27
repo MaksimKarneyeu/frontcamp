@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ResultListComponent } from './result-list.component';
+
 
 describe('ResultListComponent', () => {
   let component: ResultListComponent;

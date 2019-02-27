@@ -22,4 +22,12 @@ describe('LoadMoreComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('loadMoreOutput should pass loads to parent component', () => {
+    let loadCount = 5;
+    component.loadMoreOutput.subscribe((load: any) => {
+      expect(load).toBe(loadCount);
+    });
+    component.loadMore();
+  });
 });

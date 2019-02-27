@@ -3,17 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { News } from './news';
 import { Guid } from './creat-guid';
+import { Observable } from 'rxjs';
+import * as config from './config.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CallService {
-  private newsApiUrl: string = 'https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=5e80c4b9ce1b45d1a1e69e81bfe6fe51';
+  private newsApiUrl: string = config.api;
   constructor(private httpClient: HttpClient) {
   }
-
-
-  public getNews() {
+  
+  public getNews(): Observable<any> {
     return this.httpClient.get<News>(this.newsApiUrl)
       .pipe(
         map((response: any) => {

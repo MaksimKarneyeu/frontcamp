@@ -35,6 +35,8 @@ import { FilterPipe } from './filter.pipe';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule
+  ], exports: [
+    FilterPipe
   ], 
   bootstrap: [AppComponent]
 })
