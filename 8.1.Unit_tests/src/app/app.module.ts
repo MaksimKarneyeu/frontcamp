@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PipeMainModule } from './pipe-main/pipe-main.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +15,6 @@ import { NewsDetailsComponent } from './news-details/news-details.component';
 import { LoadMoreComponent } from './load-more/load-more.component';
 import { NewsOverviewComponent } from './news-overview/news-overview.component';
 import { ContainerComponent } from './container/container.component';
-import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   declarations: [
@@ -27,17 +27,16 @@ import { FilterPipe } from './filter.pipe';
     LoadMoreComponent,
     NewsOverviewComponent,
     ContainerComponent,
-    FilterPipe
+   
   ],
   imports: [    
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
-  ], exports: [
-    FilterPipe
-  ], 
+    ReactiveFormsModule,
+    PipeMainModule
+  ],  
   bootstrap: [AppComponent]
 })
 export class AppModule { }

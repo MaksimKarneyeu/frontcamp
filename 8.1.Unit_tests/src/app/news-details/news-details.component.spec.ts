@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NewsDetailsComponent } from './news-details.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('NewsDetailsComponent', () => {
   let component: NewsDetailsComponent;
@@ -8,18 +9,22 @@ describe('NewsDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsDetailsComponent ]
+      declarations: [NewsDetailsComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [
+        HttpClientTestingModule,
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NewsDetailsComponent);
-    component = fixture.componentInstance;
+    component = fixture.componentInstance;   
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  }); 
 });

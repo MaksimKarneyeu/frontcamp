@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NewsComponent } from './news.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ToolbarComponent', () => {
   let component: NewsComponent;
@@ -8,7 +9,11 @@ describe('ToolbarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsComponent ]
+      declarations: [ NewsComponent ],
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [
+        HttpClientTestingModule,
+      ]
     })
     .compileComponents();
   }));
@@ -21,5 +26,10 @@ describe('ToolbarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('getSources should be greater than zero', () => {
+    component.getSources();
+    expect(component.sources.length).toBeGreaterThan(0);
   });
 });

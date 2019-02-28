@@ -1,14 +1,14 @@
 import { FilterPipe } from './filter.pipe';
 import { News } from './news';
-/// <reference path="./news.matcher.d.ts"/>
+/// <reference path="./filter-matcher.d.ts" />
 
 describe('FilterPipe', () => {
   beforeEach(function () {
     jasmine.addMatchers({
       hasNoFilteredResults: function () {
         return {
-          compare: function (actual: News[], expected) {
-            return { pass: !!(actual && actual.length === 0) };
+          compare: function (actual) {
+            return   {pass: actual && actual.length === 0};
           }
         }
       }
@@ -56,7 +56,7 @@ describe('FilterPipe', () => {
 
   it('filter pipe shouldn\'t return filtered by title news', () => {
     let term = "notTitle";
-    expect(pipe.transform(expectedData, term)).toEqual([]);
+    expect(pipe.transform(expectedData, term)).hasNoFilteredResults();
   });
 
   it('filter pipe shouldn\'t return filtered by description news', () => {
@@ -65,8 +65,8 @@ describe('FilterPipe', () => {
   });
 
   it('filter pipe shouldn\'t return filtered by description news', () => {
-    let term = "notDescription";
-    expect(pipe.transform(expectedData, term)).toEqual([]);
+    let term = "notDescription";   
+    expect(pipe.transform(expectedData, term)).hasNoFilteredResults();
   });
 
 });

@@ -1,4 +1,4 @@
-<div *ngIf="!isNewsDeleted" class="media">
+<div *ngIf="!isNewsDeleted && model" class="media">
     <img class="mr-3 preview-image" src="{{model.urlToImage}}" alt="{{model.url}}">
     <div class="media-body">
       <h2 class="mt-0">{{model.title}}</h2>

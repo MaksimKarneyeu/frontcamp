@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewsOverviewComponent } from './news-overview.component';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { DetailsParams } from '../DetailsParams';
 
 describe('NewsOverviewComponent', () => {
   let component: NewsOverviewComponent;
@@ -8,12 +10,12 @@ describe('NewsOverviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewsOverviewComponent ],
+      declarations: [NewsOverviewComponent],
       imports: [
         HttpClientTestingModule,
-    ]        
+      ], schemas: [NO_ERRORS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -24,5 +26,13 @@ describe('NewsOverviewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('loadNewsDetailsOutput should pass details params to parent component', () => {
+    component.loadNewsDetailsOutput.subscribe((load: DetailsParams) => {
+      expect(load.detailsType).toEqual('Edit');
+      expect(load.title).toEqual('Edit News');
+    });
+    component.loadNewsDetails("test");
   });
 });

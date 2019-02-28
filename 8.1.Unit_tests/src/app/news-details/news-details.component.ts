@@ -32,6 +32,7 @@ export class NewsDetailsComponent implements OnInit {
   });
 
   constructor(private dataService: DataService) {
+    this.details = new DetailsParams();
   }
 
   public onSubmit() {  

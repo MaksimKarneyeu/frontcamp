@@ -2,7 +2,6 @@ import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@
 import { DataService } from '../data.service';
 import { News } from '../news';
 import { DetailsParams } from '../DetailsParams';
-import { FilterPipe } from '../filter.pipe';
 
 @Component({
   selector: 'result',

@@ -18,10 +18,19 @@ export class CallService {
     return this.httpClient.get<News>(this.newsApiUrl)
       .pipe(
         map((response: any) => {
-          return response.articles.map((value: News) => {
-            value.source.id = Guid.newGuid();
-            return value;
-          });
+          try {
+            return response.articles.map((value: News) => {
+              try {
+                value.source.id = Guid.newGuid();
+              } catch (e) {
+                value.source.id ='';
+              }           
+              return value;
+            });
+          } catch (e) {
+          return {};
+          }
+         
         })
       );
   }
