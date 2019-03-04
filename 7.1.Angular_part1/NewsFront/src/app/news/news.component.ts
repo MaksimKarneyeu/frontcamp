@@ -38,9 +38,11 @@ export class NewsComponent implements OnInit {
   public onSelect(source: string): void {        
     this.dataService.changeSource(source);
   }  
-
-  ngOnInit() {   
+  public getSources(){
     this.sources = this.dataService.getSourceList();    
+  }
+
+  ngOnInit() {       
     this.dataService.currentSource.subscribe(source => this.source = source);
   }
 }

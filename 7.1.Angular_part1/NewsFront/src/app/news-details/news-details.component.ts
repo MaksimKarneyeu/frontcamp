@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DataService } from '../data.service';
 import { News } from '../news';
 import { DetailsParams } from '../DetailsParams';
+import { Guid } from '../create.guid';
 
 @Component({
   selector: 'news-details',
@@ -12,7 +13,7 @@ export class NewsDetailsComponent implements OnInit {
   private dataService: DataService; 
   @Input() details: DetailsParams;
 
-  public model: News = new News(new Date().getTime().toString(),"");
+  public model: News = new News(Guid.newGuid(),'');
 
   constructor(dataService: DataService) {
     this.dataService = dataService;
@@ -20,12 +21,12 @@ export class NewsDetailsComponent implements OnInit {
 
   public onSubmit() {       
     switch (this.details.detailsType) {
-      case 'Create':
+      case 'Create':     
       this.dataService.addNews(this.model);
       alert('News has been created!');
         break;
         case 'Edit':
-        this.dataService.updateNews(this.model.source.id, this.model);
+        this.dataService.updateNews(this.model);
         alert('News has been updated!');
         break;
     }

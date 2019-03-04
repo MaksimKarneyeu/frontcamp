@@ -1,29 +1,29 @@
 import { News } from './news';
-import newsData from './news.json';
 import { BehaviorSubject } from 'rxjs';
+import { CallService } from './call.service';
+import { Injectable } from '@angular/core';
 
-
+@Injectable({
+    providedIn: 'root'
+})
 export class DataService {
 
-    private data: News[];
+    private data: News[] = [];
     private source = new BehaviorSubject('All Sources');
     public currentSource = this.source.asObservable();
 
-    constructor() {
-        if (!this.data) {
-            this.data = newsData.map((n: any) => {
-                let news = new News(n.source.id, n.source.name);
-                news.title = n.title;
-                news.author = n.author;
-                news.description = n.description;
-                news.url = n.url;
-                news.urlToImage = n.urlToImage;
-                news.publishedAt = n.publishedAt;
-                news.content = n.content;
-                return news;
-            }
-            );
-        }
+    constructor(private callService: CallService) {
+        this.getNewsFromServer();
+
+    }
+
+    private getNewsFromServer() {
+        return this.callService.getNews().subscribe(
+            (articles: News[]) => {
+                this.data = articles;
+            },
+            (error) => console.log(error)
+        )
     }
 
     public changeSource(source: string) {
@@ -48,20 +48,22 @@ export class DataService {
             });
     }
 
-    public addNews(news: News) { this.data.push(news); }
+    public addNews(news: News) {
+        this.callService.createNews(news)
+            .subscribe(news => console.log('news has been added'));
+    };
 
-    public updateNews(id: string, newsToUpdate: News): News {
-        this.data = this.data.filter((value: News) => { return value.source.id !== id });
-        this.data.push(newsToUpdate);
-        return newsToUpdate;
+    public updateNews(news: News){
+        this.callService.updateNews(news)
+        .subscribe(news => console.log('news has been updated'));
     }
 
-    public getNewsById(id: string): News{
+    public getNewsById(id: string): News {
         return this.data[this.data.findIndex(item => item.source.id === id)];
     }
 
     public deleteNews(id: string) {
-        this.data = this.data.filter((value: News) => { return value.source.id !== id });
+        this.callService.deleteNews(id).subscribe();
     }
 
     private sliceNews(data: News[], count: number) {
