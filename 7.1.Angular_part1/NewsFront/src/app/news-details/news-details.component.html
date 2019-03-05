@@ -68,7 +68,6 @@
               [ngModel]="model.publishedAt | date: 'yyyy-MM-dd'" (ngModelChange)="model.publishedAt=$event"
               #publishedAt="ngModel" />
           </div>
-
           <div class="form-group">
             <label for="content">Content</label>
             <textarea class="form-control noresize" rows="6" name="content" [(ngModel)]="model.content"
@@ -85,3 +84,6 @@
     </div>
   </div>
 </div>
+<div *ngIf="!model" class="alert alert-info">
+    <strong>Info!</strong> News not found!
+  </div>

@@ -7,13 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverviewContainerComponent implements OnInit {
   public newsOverviewId: string;
-  constructor() { }
+  constructor() {}
 
   public loadNewsOverviewEvent(event: string) {   
     this.newsOverviewId = event;
   }
 
-  ngOnInit() {
+  ngOnInit() {  
   }
-
 }

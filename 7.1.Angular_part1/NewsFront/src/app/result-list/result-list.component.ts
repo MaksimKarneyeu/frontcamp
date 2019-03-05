@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges} from '@angular/core';
 import { DataService } from '../data.service';
 import { News } from '../news';
 
@@ -19,9 +19,9 @@ export class ResultListComponent implements OnInit {
   constructor(private dataService: DataService) {  
   }
 
-  private renderNews(source: string, count: number = 0) {
+  private async renderNews(source: string, count: number = 0) {
     if (source === 'All Sources') {
-      this.news = this.dataService.getNews(count);
+      this.news = await this.dataService.getNews(count);
     } else {
       this.news = this.dataService.getNewsBySource(source, count);
     }   
@@ -36,8 +36,7 @@ export class ResultListComponent implements OnInit {
 
   private getPropCurrentValue(name: string, changes: SimpleChanges) {
     return changes[name].currentValue;
-  }
-  
+  }  
 
   public delete(id: string) {    
     this.dataService.deleteNews(id); 
@@ -47,7 +46,7 @@ export class ResultListComponent implements OnInit {
   public handleLoadMore(event: number) {
     this.loadNewsCount += event;
     this.renderNews(this.currentSource, this.loadNewsCount);
-  }
+  }  
 
   ngOnChanges(changes: SimpleChanges) {
     for (let propName in changes) {
@@ -67,10 +66,10 @@ export class ResultListComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loadNewsCount = this.defaultLoadCount;
     this.currentSource = 'All Sources';
     this.dataService.changeSource(this.currentSource);
-    this.news = this.dataService.getNews(this.loadNewsCount);    
+    this.news = await this.dataService.getNews(this.loadNewsCount);
   }
 }

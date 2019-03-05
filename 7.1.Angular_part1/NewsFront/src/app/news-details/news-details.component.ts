@@ -12,10 +12,10 @@ import { ActivatedRoute } from '@angular/router';
 export class NewsDetailsComponent implements OnInit {
 
   public model: News = new News(Guid.newGuid(), '');
-  public message: string;
+  public message: string; 
   private id: string;
   private operationType: string = "Create";
-  constructor(private dataService: DataService, private route: ActivatedRoute) {
+  constructor(private dataService: DataService, private route: ActivatedRoute) {   
   }
 
   public onSubmit() {
@@ -48,15 +48,13 @@ export class NewsDetailsComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    this.route.params.subscribe(params => {
+ ngOnInit() {
+    this.route.params.subscribe( async params => {
       this.id = params['id'];
       if (this.id) {
         this.operationType = 'Edit';
-        let news = this.dataService.getNewsById(this.id);
-        if (!news) {
-          this.dataService.getNews();
-        }
+        await this.dataService.getNews();
+        let news = this.dataService.getNewsById(this.id);     
         this.model = news;
       } else {
         this.model.publishedAt = new Date();

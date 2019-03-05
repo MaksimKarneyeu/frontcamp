@@ -1,5 +1,5 @@
 import { News } from './news';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { CallService } from './call.service';
 import { Injectable } from '@angular/core';
 
@@ -12,27 +12,24 @@ export class DataService {
     private source = new BehaviorSubject('All Sources');
     public currentSource = this.source.asObservable();
 
-    constructor(private callService: CallService) {
-        this.getNewsFromServer();
+     constructor(private callService: CallService) {
+        
+    } 
 
-    }
-
-    private getNewsFromServer() {
-        return this.callService.getNews().subscribe(
-            (articles: News[]) => {
+    public async getNews(count: number = 0) {
+        return await this.callService.getNews().then(articles => {
                 this.data = articles;
-            },
-            (error) => console.log(error)
-        )
+                if(count === 0){                  
+                    return this.data;
+                }
+                return this.sliceNews(this.data, count);
+            }           
+        );
     }
 
     public changeSource(source: string) {
         this.source.next(source)
-    }
-
-    public getNews(count: number = 0): News[] {
-        return this.sliceNews(this.data, count);
-    }
+    }    
 
     public getNewsBySource(source: string, count: number = 0): News[] {
         let gotData = this.data.filter((news: News) => {
@@ -53,9 +50,9 @@ export class DataService {
             .subscribe(news => console.log('news has been added'));
     };
 
-    public updateNews(news: News){
+    public updateNews(news: News) {
         this.callService.updateNews(news)
-        .subscribe(news => console.log('news has been updated'));
+            .subscribe(news => console.log('news has been updated'));
     }
 
     public getNewsById(id: string): News {

@@ -27,7 +27,7 @@ export class CallService {
             return value;
           });
         })
-      );
+      ).toPromise<News[]>();
   }
 
   public createNews(news: News) {

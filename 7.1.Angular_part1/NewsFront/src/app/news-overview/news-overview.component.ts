@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { News } from '../news';
 import { ActivatedRoute } from '@angular/router';
@@ -8,23 +8,24 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './news-overview.component.html',
   styleUrls: ['./news-overview.component.css']
 })
-export class NewsOverviewComponent implements OnInit {  
+export class NewsOverviewComponent implements OnInit {
   public model: News;
   public isNewsDeleted: boolean;
-  @Input() newsOverviewId: string;
+  public id: string;
 
-  constructor(private dataService: DataService, private route: ActivatedRoute) {
-    this.dataService = dataService;    
-  }  
-
+  constructor(private dataService: DataService, private route: ActivatedRoute) {   
+    
+  }
   public delete(id: string) {
     this.dataService.deleteNews(id);
     this.isNewsDeleted = true;
   }
 
   ngOnInit() {
-      this.route.params.subscribe(params => {  
-      this.model = this.dataService.getNewsById(params['id']);    
+    this.route.params.subscribe(async params => {
+      this.id = params['id'];
+      await this.dataService.getNews();   
+      this.model = this.dataService.getNewsById(this.id);     
       this.dataService.changeSource(this.model.source.name);
     });
   }
