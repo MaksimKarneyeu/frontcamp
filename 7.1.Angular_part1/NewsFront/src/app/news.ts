@@ -7,6 +7,7 @@ export class News{
     public title: string;
     public url: string;
     public urlToImage: string;
+    public imageBase64: ArrayBuffer | string;
     public publishedAt: Date;
     public content: string; 
 

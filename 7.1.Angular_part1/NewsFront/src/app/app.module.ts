@@ -13,6 +13,9 @@ import { DataService } from './data.service';
 import { LoadMoreComponent } from './load-more/load-more.component';
 import { NewsOverviewComponent } from './news-overview/news-overview.component';
 import { ContainerComponent } from './container/container.component';
+import { DetailsContainerComponent } from './details-container/details-container.component';
+import { OverviewContainerComponent } from './overview-container/overview-container.component';
+
 
 @NgModule({
   declarations: [
@@ -24,9 +27,11 @@ import { ContainerComponent } from './container/container.component';
     NewsDetailsComponent,
     LoadMoreComponent,
     NewsOverviewComponent,
-    ContainerComponent
+    ContainerComponent,
+    DetailsContainerComponent,
+    OverviewContainerComponent
   ],
-  imports: [    
+  imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,

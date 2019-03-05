@@ -12,6 +12,14 @@
             </div>
           </div>
           <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" name="title" [(ngModel)]="model.title" #title="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && title.invalid }" required />
+            <div *ngIf="f.submitted && title.invalid" class="invalid-feedback">
+              <div *ngIf="title.errors.required">Title is required</div>
+            </div>
+          </div>
+          <div class="form-group">
             <label for="description">Description</label>
             <input type="text" class="form-control" name="description" [(ngModel)]="model.description"
               #description="ngModel" />
@@ -24,23 +32,50 @@
             <label for="url">Url</label>
             <input type="text" class="form-control" name="url" [(ngModel)]="model.url" #url="ngModel" />
           </div>
-          <div class="form-group">
-            <label for="urlToImage">Url to image</label>
-            <input type="url" class="form-control" name="urlToImage" [(ngModel)]="model.urlToImage"
-              #urlToImage="ngModel" />
+          <div>
+            <p>Image</p>
+            <nav>
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                  aria-controls="nav-home" aria-selected="true">Url to Image</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                  aria-controls="nav-profile" aria-selected="false">Upload Image</a>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="form-group">
+                  <input type="url" class="form-control" name="urlToImage" [(ngModel)]="model.urlToImage"
+                    #urlToImage="ngModel" />
+                </div>
+              </div>
+              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="form-group">
+                  <div class="custom-file">
+                    <span *ngIf="message">{{message}}</span>
+                    <input #file type="file" class="custom-file-input" accept='image/*'
+                      (change)="preview(file.files)" />
+                    <label class="custom-file-label" for="inputGroupFile01">Choose Image</label>
+                  </div>
+                </div>
+                <img [src]="model.imageBase64" class="img-fluid img-thumbnail" *ngIf="model.imageBase64">
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label for="publishedAt">Published At</label>
-            <input type="date" class="form-control" name="publishedAt" [(ngModel)]="model.publishedAt"
+            <input type="date" class="form-control" name="publishedAt"
+              [ngModel]="model.publishedAt | date: 'yyyy-MM-dd'" (ngModelChange)="model.publishedAt=$event"
               #publishedAt="ngModel" />
           </div>
+
           <div class="form-group">
             <label for="content">Content</label>
             <textarea class="form-control noresize" rows="6" name="content" [(ngModel)]="model.content"
-            #content="ngModel" [ngClass]="{ 'is-invalid': f.submitted && content.invalid }" required></textarea>
-              <div *ngIf="f.submitted && content.invalid" class="invalid-feedback">
-                <div *ngIf="content.errors.required">Content is required</div>
-              </div>
+              #content="ngModel" [ngClass]="{ 'is-invalid': f.submitted && content.invalid }" required></textarea>
+            <div *ngIf="f.submitted && content.invalid" class="invalid-feedback">
+              <div *ngIf="content.errors.required">Content is required</div>
+            </div>
           </div>
           <div class="form-group">
             <button class="btn btn-primary">Save News</button>

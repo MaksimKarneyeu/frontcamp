@@ -1,31 +1,21 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { DataService } from '../data.service';
 import { News } from '../news';
-import { DetailsParams } from '../DetailsParams';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'news-overview',
   templateUrl: './news-overview.component.html',
   styleUrls: ['./news-overview.component.css']
 })
-export class NewsOverviewComponent implements OnInit {
-  private dataService: DataService;
+export class NewsOverviewComponent implements OnInit {  
   public model: News;
   public isNewsDeleted: boolean;
   @Input() newsOverviewId: string;
-  @Output() loadNewsDetailsOutput: EventEmitter<DetailsParams> = new EventEmitter();
 
-  constructor(dataService: DataService) {
-    this.dataService = dataService;
-  }
-
-  public loadNewsDetails(id: string): void {   
-    let details = new DetailsParams();
-    details.id = id;
-    details.detailsType = "Edit";
-    details.title = "Edit News";
-    this.loadNewsDetailsOutput.emit(details);
-  }
+  constructor(private dataService: DataService, private route: ActivatedRoute) {
+    this.dataService = dataService;    
+  }  
 
   public delete(id: string) {
     this.dataService.deleteNews(id);
@@ -33,6 +23,9 @@ export class NewsOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.model = this.dataService.getNewsById(this.newsOverviewId);    
+      this.route.params.subscribe(params => {  
+      this.model = this.dataService.getNewsById(params['id']);    
+      this.dataService.changeSource(this.model.source.name);
+    });
   }
 }

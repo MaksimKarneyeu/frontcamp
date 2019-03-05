@@ -10,6 +10,7 @@ const newsSchema = new mongoose.Schema({
     description: String,
     url: String,
     urlToImage: String,
+    imageBase64: ArrayBuffer | String,
     publishedAt: Date,
     content: String
   });

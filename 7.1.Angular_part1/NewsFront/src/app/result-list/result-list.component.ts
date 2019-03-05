@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { DataService } from '../data.service';
 import { News } from '../news';
-import { DetailsParams } from '../DetailsParams';
 
 @Component({
   selector: 'result',
@@ -11,8 +10,6 @@ import { DetailsParams } from '../DetailsParams';
 export class ResultListComponent implements OnInit {
   @Input() source: string;
   @Input() filterInput: string;
-  @Output() loadNewsDetailsOutput: EventEmitter<DetailsParams> = new EventEmitter();
-  @Output() loadNewsOverviewOutput: EventEmitter<string> = new EventEmitter();
 
   private currentSource: string;
   private defaultLoadCount: number = 5;
@@ -40,23 +37,12 @@ export class ResultListComponent implements OnInit {
   private getPropCurrentValue(name: string, changes: SimpleChanges) {
     return changes[name].currentValue;
   }
+  
 
-  public loadNewsDetails(id: string): void {
-    let details = new DetailsParams();
-    details.id = id;
-    details.detailsType = "Edit";
-    details.title = "Edit News";
-    this.loadNewsDetailsOutput.emit(details);
-  }
-
-  public delete(id: string) {
+  public delete(id: string) {    
     this.dataService.deleteNews(id); 
-    this.ngOnInit();
-  }
-
-  public loadNewsOverview(id: string): void {
-    this.loadNewsOverviewOutput.emit(id);
-  }
+    this.news = this.news.filter((value: News) => { return value.source.id !== id });
+  }  
 
   public handleLoadMore(event: number) {
     this.loadNewsCount += event;
@@ -84,6 +70,7 @@ export class ResultListComponent implements OnInit {
   ngOnInit() {
     this.loadNewsCount = this.defaultLoadCount;
     this.currentSource = 'All Sources';
+    this.dataService.changeSource(this.currentSource);
     this.news = this.dataService.getNews(this.loadNewsCount);    
   }
 }
