@@ -62,8 +62,7 @@ export class ResultListComponent implements OnInit {
         this.loadNewsCount = this.defaultLoadCount;
         this.currentSource = this.getPropCurrentValue(propName, changes);
         this.renderNews(this.currentSource, this.loadNewsCount);
-      }
-      
+      }      
     }
   }
 

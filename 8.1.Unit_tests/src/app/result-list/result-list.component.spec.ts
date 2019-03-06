@@ -5,6 +5,7 @@ import { PipeMainModule } from '../pipe-main/pipe-main.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DetailsParams } from '../DetailsParams';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { News } from '../news';
 
 describe('ResultListComponent', () => {
 
@@ -30,12 +31,20 @@ describe('ResultListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('loadNewsDetailsOutput should pass details params to parent component', () => {
-    component.loadNewsDetailsOutput.subscribe((load: DetailsParams) => {
-      expect(load.detailsType).toEqual('Edit');
-      expect(load.title).toEqual('Edit News');
-    });
+  it('loadNewsDetailsOutput should pass params to parent component', () => {
+    component.loadNewsDetailsOutput.subscribe((load: DetailsParams) => {      
+      expect(load.title).toEqual('Edit News');  
+      expect(load.detailsType).toEqual('Edit');  
+        
+      });
     component.loadNewsDetails("test");
   });
 
+  it('loadNewsOverviewOutput should pass params to parent component', () => {
+    component.loadNewsOverviewOutput.subscribe((source: string) => {   
+      component.delete('test');   
+      expect(source).toEqual('test');   
+      });
+    component.loadNewsOverview("test");
+  }); 
 });

@@ -3,6 +3,7 @@ import { DataService } from '../data.service';
 import { DetailsParams } from '../DetailsParams';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Guid } from '../creat-guid';
+import { News } from '../news';
 
 @Component({
   selector: 'news-details',
@@ -48,19 +49,22 @@ export class NewsDetailsComponent implements OnInit {
     }
   }
 
+  public initEditForm(news: News){
+    if (this.details.id) {    
+      this.id.setValue(news.source.id);
+      this.name.setValue(news.source.name);
+      this.description.setValue(news.description);
+      this.author.setValue(news.author);
+      this.url.setValue(news.url);
+      this.urlToImage.setValue(news.urlToImage);
+      this.publishedAt.setValue(news.publishedAt);
+      this.content.setValue(news.content);
+    }
+  }
+
   ngOnInit() {
     this.dataService.changeSource(this.details.title);
-
-    if (this.details.id) {
-      let editable = this.dataService.getNewsById(this.details.id);
-      this.id.setValue(editable.source.id);
-      this.name.setValue(editable.source.name);
-      this.description.setValue(editable.description);
-      this.author.setValue(editable.author);
-      this.url.setValue(editable.url);
-      this.urlToImage.setValue(editable.urlToImage);
-      this.publishedAt.setValue(editable.publishedAt);
-      this.content.setValue(editable.content);
-    }
+    let editable = this.dataService.getNewsById(this.details.id);
+    this.initEditForm(editable);   
   }
 }
