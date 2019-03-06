@@ -47,7 +47,7 @@ router.post('/', function (req, res, next) {
     } else {
       let newsItem = new News(req.body);
       newsItem.save();
-      res.sendStatus(201);
+      res.send();
     }
   });
 });
@@ -60,7 +60,7 @@ router.put('/:id', function (req, res, next) {
       res.send(500, { error: err });
     }
     else {
-      res.sendStatus(204);
+      res.send();
     }
   });
 

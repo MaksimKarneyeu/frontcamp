@@ -14,7 +14,8 @@ export class NewsOverviewComponent implements OnInit {
   public id: string;
 
   constructor(private dataService: DataService, private route: ActivatedRoute) {   
-    
+    this.dataService.changeSource(this.model && this.model.source ?
+      this.model.source.name : 'News');
   }
   public delete(id: string) {
     this.dataService.deleteNews(id);
@@ -22,11 +23,11 @@ export class NewsOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(async params => {
+    this.route.params.subscribe(async params => {      
       this.id = params['id'];
       await this.dataService.getNews();   
-      this.model = this.dataService.getNewsById(this.id);     
-      this.dataService.changeSource(this.model.source.name);
-    });
+      this.model = this.dataService.getNewsById(this.id); 
+     
+    });   
   }
 }
