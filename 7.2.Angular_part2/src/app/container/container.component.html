@@ -1,5 +1,0 @@
-<header></header>  
-<news *ngIf="isLoadNews" (loadNewsDetailsOutput)="loadNewsDetailsEvent($event);" (loadNewsOverviewOutput)="loadNewsOverviewEvent($event);"></news>
-<news-details [details]="details" *ngIf="isLoadNewsDetails"></news-details>
-<news-overview (loadNewsDetailsOutput)="loadNewsDetailsEvent($event);" [newsOverviewId]="newsOverviewId" *ngIf="isLoadNewsOverview"></news-overview>
-<footer></footer> 

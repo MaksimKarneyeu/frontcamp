@@ -1,0 +1,4 @@
+{
+    "serverUrl": "http://localhost:3000/",
+    "externalApiUrl": "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=5e80c4b9ce1b45d1a1e69e81bfe6fe51"    
+}

@@ -1,0 +1,21 @@
+<div *ngIf="!isNewsDeleted && model" class="media">
+    <img class="mr-3 preview-image" [src]="model.imageBase64 ? model.imageBase64 : model.urlToImage" alt="{{model.url}}">
+    <div class="media-body">
+      <h2 class="mt-0">{{model.title}}</h2>
+     <p>{{model.content}}</p>
+     <p>Author: {{model.author}}</p>
+     <p>Published At: {{model.publishedAt | date}}</p>
+     <div *ngIf="!model.isExternal">
+        <button [routerLink]="['/edit', model ? model.source.id : id]" class="btn btn-primary">Edit</button>
+        <button (click)="delete(model.source.id)" class="btn btn-primary">Delete</button>
+     </div>     
+    </div>   
+  </div>
+  <div>
+      <div *ngIf="isNewsDeleted" class="alert alert-success">
+          <strong>Success!</strong> News has been deleted!
+        </div>
+        <div *ngIf="!model" class="alert alert-info">
+          <strong>Info!</strong> News not found!
+        </div>
+  </div>

@@ -1,0 +1,6 @@
+.noresize{
+    resize: none;
+}
+.required {
+    color: red;
+  }

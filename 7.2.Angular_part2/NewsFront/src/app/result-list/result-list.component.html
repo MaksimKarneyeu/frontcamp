@@ -1,0 +1,20 @@
+<div *ngFor="let item of news | filter: filterInput">
+  <li class="media media-item">
+    <a class="pull-left" [href]="item.url">
+      <img class="mr-3 preview-image" [src]="item.imageBase64 ? item.imageBase64 : item.urlToImage">
+    </a>
+    <div class="media-body">
+      <h5 class="mt-1"><a href="{{item.url}}">{{item.title}}</a></h5>
+      <p>{{item.description}}</p>
+      <p class="align-date">{{item.publishedAt | date}}</p>
+      <div class="lower-left">       
+
+        <button [routerLink]="['/news', item.source.id]" class="btn btn-primary">Details</button>
+        <button *ngIf="!item.isExternal" [routerLink]="['/edit', item.source.id]" class="btn btn-primary">Edit</button>    
+        <button *ngIf="!item.isExternal" (click)="delete(item.source.id)" class="btn btn-primary">Delete</button>    
+      </div>
+    </div>
+  </li>
+  <br>
+</div>
+<load-more (loadMoreOutput)="handleLoadMore($event);"></load-more>
